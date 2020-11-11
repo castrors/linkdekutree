@@ -31,6 +31,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final links = [
     Link(
+        title: 'Vídeo de entrevista Fani e Rafa',
+        url: 'https://www.youtube.com/watch?v=PCjQ1AZcvdA'),
+    Link(
         title: 'Meu canal no Youtube',
         url: 'https://www.youtube.com/channel/UCPRdmUZXiPz5_2XokXsPPbA'),
     Link(title: 'Meu portfólio', url: 'https://castrors.github.io/'),
