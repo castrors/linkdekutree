@@ -30,6 +30,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final links = [
+    Link(title: 'DevMeetup - Sendo Dev na Alemanha', url: 'https://www.sympla.com.br/devmeetup---sendo-dev-na-alemanha__1055386'),
     Link(
         title: 'Vídeo de entrevista Fani e Rafa',
         url: 'https://www.youtube.com/watch?v=PCjQ1AZcvdA'),
