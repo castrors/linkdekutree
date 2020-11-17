@@ -1,9 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:linkdekutree/widgets/circle_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'link.dart';
 
 void main() {
   runApp(App());
@@ -29,20 +28,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final links = [
-    Link(title: 'DevMeetup - Sendo Dev na Alemanha', url: 'https://www.sympla.com.br/devmeetup---sendo-dev-na-alemanha__1055386'),
-    Link(
-        title: 'Vídeo de entrevista Fani e Rafa',
-        url: 'https://www.youtube.com/watch?v=PCjQ1AZcvdA'),
-    Link(
-        title: 'Meu canal no Youtube',
-        url: 'https://www.youtube.com/channel/UCPRdmUZXiPz5_2XokXsPPbA'),
-    Link(title: 'Meu portfólio', url: 'https://castrors.github.io/'),
-    Link(
-        title: 'Trilha + Montanha russa em Alpsee Bergwelt na Alemanha',
-        url: 'https://www.youtube.com/watch?v=MdUm6kmihN4'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,24 +53,41 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: links.length,
-              itemBuilder: (context, index) {
-                final link = links[index];
-                return Card(
-                  color: Colors.green.shade800,
-                  child: ListTile(
-                    title: Text(
-                      link.title,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onTap: () => _launchURL(link.url),
+          StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('links')
+                  .orderBy('createdAt', descending: true)
+                  .snapshots(),
+              builder: (context, stream) {
+                if (stream.connectionState == ConnectionState.waiting) {
+                  return Expanded(
+                      child: Center(child: CircularProgressIndicator()));
+                }
+                if (stream.hasError) {
+                  print(stream.error);
+                  return Text('Something unexpected happened');
+                }
+
+                var querySnapshot = stream.data;
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: querySnapshot.size,
+                    itemBuilder: (context, index) {
+                      final link = querySnapshot.docs[index];
+                      return Card(
+                        color: Colors.green.shade800,
+                        child: ListTile(
+                          title: Text(
+                            link['title'],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onTap: () => _launchURL(link['url']),
+                        ),
+                      );
+                    },
                   ),
                 );
-              },
-            ),
-          ),
+              }),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
