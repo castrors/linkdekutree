@@ -30,6 +30,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final links = [
+    Link(title: 'Vídeo Cristo redentor do pantanal em Coxim/MS', url: 'https://youtu.be/omRhkqPDlYM'),
+    Link(title: 'Vídeo Isla Saona em Punta Cana, República dominicana', url: 'https://youtu.be/hH7qZIvzKns'),
     Link(title: 'Passeio no Skywalk', url: 'https://youtu.be/Q7JZCLB6e3A'),
     Link(title: 'DevMeetup - Sendo Dev na Alemanha', url: 'https://www.sympla.com.br/devmeetup---sendo-dev-na-alemanha__1055386'),
     Link(
